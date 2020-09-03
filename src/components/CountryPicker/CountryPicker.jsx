@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CountryPicker() {
+const CountryPicker = () => {
     return (
         <div>
             <h1>Country picker</h1>
