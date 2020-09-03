@@ -9,6 +9,8 @@ import styles from './App.module.css'
 import { Cards, Chart, CountryPicker } from './components'
 import { fetchData } from './api/'
 
+import coronaImage from './images/image.png'
+
 class App extends React.Component {
 
     state = { data: {}, country: '', }
@@ -31,6 +33,7 @@ class App extends React.Component {
         return (
             // guarantees that there is no interference with other CSS file within the app
             <div className={styles.container}>
+                <img className={styles.image} alt="COVID-19" src={coronaImage} />
                 <Cards data={data}/>
                 <CountryPicker handleCountryChange={this.handleCountryChange}/>
                 <Chart data={data} country={country}/>
