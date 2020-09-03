@@ -11,21 +11,29 @@ import { fetchData } from './api/'
 
 class App extends React.Component {
 
-    state = { data: {},  }
+    state = { data: {}, country: '', }
 
     async componentDidMount() {
         const fetchedData = await fetchData();
         this.setState({ data: fetchedData })
     }
+
+    handleCountryChange = async (country) => {
+        //fetch the data & set the state
+        const fetchedData = await fetchData(country);
+        // console.log(fetchedData);
+        this.setState({ data: fetchedData, country: country })
+
+    }
     render() {
-        const { data } = this.state;
+        const { data, country } = this.state;
 
         return (
             // guarantees that there is no interference with other CSS file within the app
             <div className={styles.container}>
                 <Cards data={data}/>
-                <CountryPicker />
-                <Chart />
+                <CountryPicker handleCountryChange={this.handleCountryChange}/>
+                <Chart data={data} country={country}/>
             </div>
         );
     }
