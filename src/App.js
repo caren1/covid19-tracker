@@ -1,45 +1,43 @@
 import React from 'react';
-import styles from './App.module.css'
-
-// import Cards from './components/Cards/Cards'
-// import Chart from './components/Chart/Chart'
-// import CountryPicker from './components/CountryPicker/CountryPicker'
 
 // improved version of import instead of one-line import for each component
-import { Cards, Chart, CountryPicker } from './components'
-import { fetchData } from './api/'
+import { Cards, CountryPicker, Chart } from './components';
+import { fetchData } from './api/';
+import styles from './App.module.css';
 
-import coronaImage from './images/image.png'
+import image from './images/image.png';
 
 class App extends React.Component {
+  state = {
+    data: {},
+    country: '',
+  }
 
-    state = { data: {}, country: '', }
+  async componentDidMount() {
+    const data = await fetchData();
 
-    async componentDidMount() {
-        const fetchedData = await fetchData();
-        this.setState({ data: fetchedData })
-    }
+    this.setState({ data });
+  }
 
-    handleCountryChange = async (country) => {
-        //fetch the data & set the state
-        const fetchedData = await fetchData(country);
-        // console.log(fetchedData);
-        this.setState({ data: fetchedData, country: country })
+  handleCountryChange = async (country) => {
+    const data = await fetchData(country);
 
-    }
-    render() {
-        const { data, country } = this.state;
+    this.setState({ data, country: country });
+  }
 
-        return (
-            // guarantees that there is no interference with other CSS file within the app
-            <div className={styles.container}>
-                <img className={styles.image} alt="COVID-19" src={coronaImage} />
-                <Cards data={data}/>
-                <CountryPicker handleCountryChange={this.handleCountryChange}/>
-                <Chart data={data} country={country}/>
-            </div>
-        );
-    }
+  render() {
+    const { data, country } = this.state;
+
+    return (
+       // className guarantees that there is no interference with other CSS file within the app
+      <div className={styles.container}>
+        <img className={styles.image} src={image} alt="COVID-19" />
+        <Cards data={data} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <Chart data={data} country={country} /> 
+      </div>
+    );
+  }
 }
 
 export default App;
